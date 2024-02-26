@@ -84,6 +84,7 @@ public class OCReport extends HttpServlet {
             out.println("<h1>" + "<  物品  >" + "</h1>");
             for (AEItem item : items) {
                 if (Objects.equals(item.getAeName(), "ae2fc:fluid_drop")) continue;
+                if (Objects.equals(item.getAeSize(), "0")) continue;
 
                 Pair<String, Integer> sign = Pair.of(item.getAeName(), item.getAeMeta());
                 String local;
