@@ -1,6 +1,8 @@
-package com.rhynia.ochelper;
+package com.rhynia.ochelper.ae;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+
+import java.math.BigDecimal;
 
 public class AEItem {
 
@@ -33,6 +35,11 @@ public class AEItem {
     }
 
     public String getAeSize() {
+        if (aeSize.contains("E")) {
+            BigDecimal bd = new BigDecimal(aeSize);
+            return bd.toPlainString();
+        }
+        if (aeSize.contains(".0")) return aeSize.substring(0, aeSize.indexOf("."));
         return aeSize;
     }
 

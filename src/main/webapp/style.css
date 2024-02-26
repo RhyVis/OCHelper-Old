@@ -1,0 +1,32 @@
+body {
+    background-color:black;
+}
+h1 {
+    color:red;
+    text-align:center;
+    font-family: "Times New Roman", serif;
+    font-size:30px;
+}
+p {
+    color: white;
+    font-family: "Times New Roman", serif;
+    font-size:20px;
+}
+a {
+    width: fit-content;
+    color:green;
+    margin: auto;
+    border: 3px solid green;
+    padding: 10px;
+    font-family: "Times New Roman", serif;
+    font-size:20px;
+}
+center {
+    text-align: center;
+}
+line {
+    text-align: left;
+    color: white;
+    font-family: "Times New Roman", serif;
+    font-size:15px;
+}
