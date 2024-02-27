@@ -1,5 +1,7 @@
 ## OC Helper
 
+This project was archived for I switched to spring boot.
+
 This is the server web app to gather info produced by https://github.com/RhyVis/OCLua
 
 Tested with Tomcat with my poor html design.
