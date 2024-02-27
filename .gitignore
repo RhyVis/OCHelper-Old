@@ -38,3 +38,5 @@ build/
 .DS_Store
 /.idea/
 /.idea/
+/src/main/webapp/static/dist/assets/img/item_table/
+/src/main/webapp/static/dist/pages/

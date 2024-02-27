@@ -1,8 +1,11 @@
 package com.rhynia.ochelper.ae;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.rhynia.ochelper.util.Format;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class AEItem {
 
@@ -41,6 +44,19 @@ public class AEItem {
         }
         if (aeSize.contains(".0")) return aeSize.substring(0, aeSize.indexOf("."));
         return aeSize;
+    }
+
+    public String getAeSizeDisplay() {
+        BigDecimal bd = new BigDecimal(this.getAeSize());
+        DecimalFormat df = new DecimalFormat("#,###");
+        return df.format(bd);
+    }
+
+    public String getAeSizeByte() {
+        String temp = this.getAeSize();
+        String out = Format.formatStringByte(this.getAeSize());
+        if (Objects.equals(temp, out)) return "";
+        return "(" + out + ")";
     }
 
     public int getAeMeta() {

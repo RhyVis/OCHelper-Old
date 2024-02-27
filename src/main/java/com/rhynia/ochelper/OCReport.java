@@ -1,7 +1,6 @@
 package com.rhynia.ochelper;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.util.ApacheLang3Support;
 import com.csvreader.CsvReader;
 import com.rhynia.ochelper.ae.AEFluid;
 import com.rhynia.ochelper.ae.AEItem;
@@ -34,6 +33,7 @@ public class OCReport extends HttpServlet {
             Properties prop = new Properties();
             prop.load(is);
             String csvPath = prop.getProperty("csv.path");
+            is.close();
 
             CsvReader itemCSV = new CsvReader(csvPath + "itempanel.csv", ',', StandardCharsets.UTF_8);
             itemCSV.readHeaders();
@@ -61,6 +61,7 @@ public class OCReport extends HttpServlet {
             String jsonPath = prop.getProperty("json.path");
             String iconPath = prop.getProperty("icon.path");
             String altPath = prop.getProperty("icon.default");
+            is.close();
 
             res.setContentType("text/html;charset=UTF-8");
             FileReader f_i = new FileReader(jsonPath + "indexItem.json");
@@ -78,10 +79,21 @@ public class OCReport extends HttpServlet {
             List<AEFluid> fluids = JSONArray.parseArray(JSONFluidRaw).toList(AEFluid.class);
 
             PrintWriter out = res.getWriter();
-            out.println("<link rel=\"stylesheet\" href=\"style.css\">");
-            out.println("<html><body>");
+            out.println("<link rel=\"stylesheet\" href=\"static/dist/css/adminlte.min.css\">");
+            out.println("<script src=\"static/dist/js/adminlte.min.js\"></script>");
 
-            out.println("<h1>" + "<  物品  >" + "</h1>");
+            out.println("<html><head><title>AE Storage Center</title></head>");
+            out.println("<body>");
+
+            out.println("<script src=\"https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js\" integrity=\"sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=\" crossorigin=\"anonymous\"></script>");
+            out.println("<script src=\"https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js\" integrity=\"sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=\" crossorigin=\"anonymous\"></script>");
+            out.println("<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js\" integrity=\"sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=\" crossorigin=\"anonymous\"></script>");
+
+            out.println("<main class=\"app-main\">");
+            out.println("<h1 style=\"text-align: center;\" class=\"mb-0\">[  物品  ]</h1>");
+            out.println("</br>");
+            out.println("<div class=\"row\">");
+
             for (AEItem item : items) {
                 if (Objects.equals(item.getAeName(), "ae2fc:fluid_drop")) continue;
                 if (Objects.equals(item.getAeSize(), "0")) continue;
@@ -94,9 +106,18 @@ public class OCReport extends HttpServlet {
                     local = item.getAeLabel();
                 }
 
-                out.println("<p><line>" + local + " : " + item.getAeSize() + "</line></p>");
+                String imgLocal = "<img src=\"" + iconPath + local + ".png\", alt=\"" + altPath + "\", width=\"50\", height=\"50\">";
+
+                out.println("<div class=\"col-12 col-sm-6 col-md-3\">");
+                out.println("<div class=\"info-box\"> <span class=\"info-box-icon text-bg-success shadow-sm\">" + imgLocal + "</span>");
+                out.println("<div class=\"info-box-content\"> <span class=\"info-box-text\">"+local+"</span> <span class=\"info-box-number\">" + item.getAeSizeDisplay() + " " + item.getAeSizeByte() +"</span> </div> </div>");
+                out.println("</div>");
             }
-            out.println("<h1>" + "<  流体  >" + "</h1>");
+            out.println("</div>");
+
+            out.println("<h1 style=\"text-align: center;\" class=\"mb-0\">[  流体  ]</h1>");
+            out.println("</br>");
+            out.println("<div class=\"row\">");
             for (AEFluid fluid : fluids) {
                 String local;
                 if (NAME_MAP_FLUID.containsKey(fluid.getAeName())) {
@@ -105,9 +126,16 @@ public class OCReport extends HttpServlet {
                     local = fluid.getAeLabel();
                 }
 
-                out.println("<p><line>" + local + " : " + fluid.getAeSize() + "</line></p>");
-            }
+                String imgLocal = "<img src=\"" + iconPath + local + "单元.png\", alt=\"" + altPath + "\", width=\"50\", height=\"50\">";
 
+                out.println("<div class=\"col-12 col-sm-6 col-md-3\">");
+                out.println("<div class=\"info-box\"> <span class=\"info-box-icon text-bg-success shadow-sm\">" + imgLocal + "</span>");
+                out.println("<div class=\"info-box-content\"> <span class=\"info-box-text\">"+local+"</span> <span class=\"info-box-number\">" + fluid.getAeSizeDisplay() + " " + fluid.getAeSizeByte() +"</span> </div> </div>");
+                out.println("</div>");
+            }
+            out.println("</div>");
+
+            out.println("</main>");
             out.println("</body></html>");
 
         } catch (Exception e) {
