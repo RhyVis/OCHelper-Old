@@ -1,13 +1,13 @@
-package com.rhynia.ochelper.ae;
-
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.rhynia.ochelper.util.Format;
+package com.rhynia.ochelper.jsonMap;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
-public class AEItem {
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.rhynia.ochelper.util.Format;
+
+public class AEFluid {
 
     @JSONField(name = "name")
     private String aeName;
@@ -15,18 +15,14 @@ public class AEItem {
     @JSONField(name = "label")
     private String aeLabel;
 
-    @JSONField(name = "size")
+    @JSONField(name = "amount")
     private String aeSize;
 
-    @JSONField(name = "damage")
-    private int aeMeta;
-
-    public AEItem(String name, String label, String size, int damage) {
+    public AEFluid(String name, String label, String amount) {
         super();
         this.aeName = name;
         this.aeLabel = label;
-        this.aeMeta = damage;
-        this.aeSize = size;
+        this.aeSize = amount;
     }
 
     public String getAeName() {
@@ -42,7 +38,8 @@ public class AEItem {
             BigDecimal bd = new BigDecimal(aeSize);
             return bd.toPlainString();
         }
-        if (aeSize.contains(".0")) return aeSize.substring(0, aeSize.indexOf("."));
+        if (aeSize.contains(".0"))
+            return aeSize.substring(0, aeSize.indexOf("."));
         return aeSize;
     }
 
@@ -55,12 +52,9 @@ public class AEItem {
     public String getAeSizeByte() {
         String temp = this.getAeSize();
         String out = Format.formatStringByte(this.getAeSize());
-        if (Objects.equals(temp, out)) return "";
+        if (Objects.equals(temp, out))
+            return "";
         return "(" + out + ")";
-    }
-
-    public int getAeMeta() {
-        return aeMeta;
     }
 
     public void setAeName(String aeName) {
@@ -75,7 +69,4 @@ public class AEItem {
         this.aeSize = aeSize;
     }
 
-    public void setAeMeta(int aeMeta) {
-        this.aeMeta = aeMeta;
-    }
 }

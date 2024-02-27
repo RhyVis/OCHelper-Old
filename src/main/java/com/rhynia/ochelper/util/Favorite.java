@@ -14,6 +14,7 @@ public class Favorite {
         favName = name;
         favMeta = damage;
     }
+
     public Favorite(String label) {
         favLabel = label;
     }
@@ -21,18 +22,23 @@ public class Favorite {
     public String getFavName() {
         return favName;
     }
+
     public String getFavLabel() {
         return favLabel;
     }
+
     public int getFavMeta() {
         return favMeta;
     }
+
     public void setFavName(String name) {
         favName = name;
     }
+
     public void setFavLabel(String label) {
         favLabel = label;
     }
+
     public void setFavMeta(int damage) {
         favMeta = damage;
     }
